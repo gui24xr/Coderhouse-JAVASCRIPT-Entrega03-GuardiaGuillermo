@@ -1,0 +1,6 @@
+# ignore ALL files in ANY directory named temp
+SITIO PARA UPLOAD/
+node_modules
+*.json
+.style.scss
+scss

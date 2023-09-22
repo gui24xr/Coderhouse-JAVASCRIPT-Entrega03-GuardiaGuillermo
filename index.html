@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRE ENTREGA 3 GUILLERMO GUARDIA CODERHOUSE CURSO JAVASCRIPT </title>
+    <meta name="description" content="Tengo musica mexicana en el alma y la llevo por el mundo">
+    <meta name="keywords" content="MEXICO, BOLEROS, RANCHERAS, JAVIER SOLIS, LUIS CARLOS GAGO, PEDRO INFANTE,NO ME QUIERAS, MARGARITA">
+    <link
+      rel="StyleSheet"
+      href="./css/style.css"
+      type="text/css"
+      media="screen"
+    />
+
+
+    <script
+   
+    ></script>
+   
+  </head>
+
+  <body>
+    <header class="header">
+      
+   
+      <section class="header_nav_bar">
+              
+        <img class="header_nav_logo1" alt="Luis Carlos Gago" src="./imagenes/icons/ico_insta3.png" />
+        
+        <nav class="nav_lista_secciones_sitio">
+          <ul>
+        
+            <li id="user_name_barra_superior" class="header_perfil-name"></li>
+            <li ><img id="foto_perfil_barra_superior" class="header_perfil_pic"   /></li>
+
+            <li id="btnMenu"> <img class="header_nav_mxflag"  src="./imagenes/icons/ico_menu.png" /></li>
+         
+          </ul>
+
+         
+        </nav>
+
+        <nav id="nav_menu_sesion" class="nav_menu_sesion_invisible">
+          <ul>
+            <li id= "btnEditPerfil" class="opcion_menu_conf"><img   src="./imagenes/icons/ico_ediperfil2.png" /><p>Editar Perfil</li>
+            <li id="btnLogout" class="opcion_menu_sesion"><img   src="./imagenes/icons/ico_cerrarsesion.png" /><p>Cerrar sesion</li>
+
+  
+       
+           
+         
+          </ul>
+
+         
+        </nav>
+
+        <nav id="nav_menu_conf" class="nav_menu_conf_invisible">
+          <ul>
+        
+           
+            <li  class="opcion_menu_conf"><img  id="btnConfig" src="./imagenes/icons/ico_conf.png" /><p>Configuracion</li>
+            <li  class="opcion_menu_conf"></p><img id="btnAyuda"   src="./imagenes/icons/ico_ayuda.png" /><p >Ayuda</li>
+       
+           
+         
+          </ul>
+
+         
+        </nav>
+
+
+      </section>
+    </header>
+
+    <main>
+      <section class="blog-container">
+        
+        <section  id="container-historias" class="container-historias"></section>
+        
+
+          
+         
+
+        <div id="login-Container" class="login-container">
+          <h2 class="label-login">Iniciar Sesión</h2>
+          <form class="login-form"   name="formulario_opciones" action="javascript:iniciarSesion()" method="get" id="menu_principal">
+              <h3 class="label-input" for="usuario">Usuario:</h3>
+              <input id="login-username-input" type="text"  name="usuario" required>
+              
+              <h3 class="label-input" for="contrasena">Contraseña:</h3>
+              <input id="login-password-input" type="password" name="contrasena" required>
+              
+              <button class="login-button" type="submit">Iniciar Sesión</button>
+          </form>
+      </div>
+        
+        
+        
+        
+        </div>
+        
+        <div  id="postsContainer" class="posts-container_invisible"> </div>
+
+
+      </section>
+    
+    </section>
+
+     
+    </main>
+
+    <footer class="seccion_footer">
+      
+
+      <section class="footer_social_bar">
+        <p>SIGUEME EN...</p>
+        <nav>
+          <ul>
+            <li>
+              <a href="https://www.instagram.com/" target="_blank"
+                ><img
+                  alt="instagram"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_insta2.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+            <li>
+              <a href="https://twitter.com/twitterlatam?lang=es" target="_blank"
+                ><img
+                  alt="Twitter"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_twitter.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/" target="_blank"
+                ><img
+                  alt="facebook"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_fb.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+            <li>
+              <a href="https://music.youtube.com/" target="_blank"
+                ><img
+                  alt="YouTube Music"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_ytm.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/" target="_blank"
+                ><img
+                  alt="YouTube"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_yt.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+            <li>
+              <a
+                href="https://open.spotify.com/search/luis%20carlos%20gago"
+                target="_blank"
+                ><img
+                  alt="Spotify"
+                  class="social_bar_icono"
+                  src="./imagenes/icons/ico_spo.png"
+                  width="45"
+                  height="45"
+              /></a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+
+
+      
+    </footer>
+
+    <script defer src='./datos.js'></script>
+    <script defer src='./index.js'></script>
+  </body>
+</html>
