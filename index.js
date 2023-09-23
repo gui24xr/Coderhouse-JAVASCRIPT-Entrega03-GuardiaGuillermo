@@ -39,12 +39,14 @@ let renderizarUnPost = (usuarioPost, entrada, contenedor) => {
   let imgLikes = document.createElement("img");
   imgLikes.src = "./imagenes/icons/ico_like.png";
   imgLikes.className = "likesBTN";
-  imgLikes.addEventListener("click", () => alert("Funcion Like"));
+  imgLikes.addEventListener("click", () => { alert("funcion aun no implementada.") });
+
 
   //Icono boton comentarios.
   let imgComment = document.createElement("img");
   imgComment.src = "./imagenes/icons/ico_comment.png";
   imgComment.className = "commentBTN";
+  imgComment.addEventListener("click", () => { alert("funcion aun no implementada.") });
 
   //Cantidad de Likes
   let likesPostCant = document.createElement("text");
@@ -94,128 +96,157 @@ const renderizarListaPosts = (unUsuario, container) => {
 //Esta funcion maneja la barra superior. habilita menues si la sesion esta iniciada y pone foto de perfil
 //Al cerrar cesion hace lo contrario.
 function actualizarBarraSuperior(sesionIniciada, usuario) {
-  
- let userNameBarraSuperior = document.getElementById("user_name_barra_superior"); 
- let fotoPerfilBarraSuperior = document.getElementById("foto_perfil_barra_superior");
+
+  let userNameBarraSuperior = document.getElementById("user_name_barra_superior");
+  let fotoPerfilBarraSuperior = document.getElementById("foto_perfil_barra_superior");
 
   //Si sesion iniciada pone Imagen perfil usuario, de lo contrario una predeterminada.
   sesionIniciada
     ? (fotoPerfilBarraSuperior.src = usuario.getFotoPerfil())
-    : (fotoPerfilBarraSuperior.src = "../imagenes/icons/ico_perfil.png");
-  
+    : (fotoPerfilBarraSuperior.src = "./imagenes/icons/ico_perfil.png");
+
   sesionIniciada
     ? (userNameBarraSuperior.innerText = usuario.getUserName())
     : (userNameBarraSuperior.innerText = "Iniciar sesion");
 
   if (sesionIniciada) habilitarMenu()
 
- 
+
 
 }
 
 //habilita los menues si la cesion esta iniciada y agregamos evento a todos los botones.
-function habilitarMenu(){
-
-  
-let userNameBarraSuperior = document.getElementById("user_name_barra_superior");
- let menuConfiguracion = document.getElementById("nav_menu_conf");
- let btnMenu = document.getElementById("btnMenu");
- let navmenuSesion = document.getElementById("nav_menu_sesion");
- let btnLogout = document.getElementById("btnLogout");
- let btnEditPerfil = document.getElementById("btnEditPerfil") 
- let btnConfig = document.getElementById("btnConfig");
- let btnAyuda = document.getElementById("btnAyuda");
-
-btnMenu.addEventListener("mouseUp", () => menuConfiguracion.classList.toggle("nav_menu_conf"));
-btnMenu.addEventListener("click", () => menuConfiguracion.classList.toggle("nav_menu_conf")  );
-userNameBarraSuperior.addEventListener("click", () => { navmenuSesion.classList.toggle("nav_menu_sesion");});
+function habilitarMenu() {
 
 
-btnLogout.addEventListener("click", ()=>cerrarSesion())
-btnEditPerfil.addEventListener("click", ()=>alert("Aun no implementado."))
-btnConfig.addEventListener("click", ()=>alert("Aun no implementado"))
-btnAyuda.addEventListener("click", ()=>alert("Aun no implementado."))
-  
+  let userNameBarraSuperior = document.getElementById("user_name_barra_superior");
+  let menuConfiguracion = document.getElementById("nav_menu_conf");
+  let btnMenu = document.getElementById("btnMenu");
+  let navmenuSesion = document.getElementById("nav_menu_sesion");
+  let btnLogout = document.getElementById("btnLogout");
+  let btnEditPerfil = document.getElementById("btnEditPerfil")
+  let btnConfig = document.getElementById("btnConfig");
+  let btnAyuda = document.getElementById("btnAyuda");
+
+  btnMenu.addEventListener("mouseUp", () => menuConfiguracion.classList.toggle("nav_menu_conf"));
+  btnMenu.addEventListener("click", () => menuConfiguracion.classList.toggle("nav_menu_conf"));
+  userNameBarraSuperior.addEventListener("click", () => { navmenuSesion.classList.toggle("nav_menu_sesion"); });
+
+
+  btnLogout.addEventListener("click", () => cerrarSesion())
+  btnEditPerfil.addEventListener("click", () => alert("Aun no implementado."))
+  btnConfig.addEventListener("click", () => alert("Aun no implementado"))
+  btnAyuda.addEventListener("click", () => alert("Aun no implementado."))
+
 
 
 }
 
-function cerrarSesion(){
 
+//----------------SESIONES ---------------------------------------------------//
+
+const sesionesIniciadas = (usuario) => {
+
+  let arrayRetornado;
+ //Retorna el array que esta en local storage bajo la clave 'sesionesIniciadas', si es que existe.
+ /* for (let i = 0; i < localStorage.length; i++) {
+    console.log(localStorage.key(i));
+
+    if localStorage.key(i)== 'sesionesIniciadas') arrayRetornado = localStorage.getItem()
+  }
+*/
  
 
-postsContainer.classList='posts-container_invisible'
-loginContainer.classList='login-container'
-actualizarBarraSuperior(false,"Sin Usuario");
-//Faltaria eliminar eventos al cerrar cesion
+}
 
+function cerrarSesion() {
+
+
+  postsContainer.classList = 'posts-container_invisible'
+  loginContainer.classList = 'login-container'
+  actualizarBarraSuperior(false, "Sin Usuario");
+  //Faltaria eliminar eventos al cerrar cesion
 
 }
 
-function abrirSesion(){
 
-//Desaparezco el formulario de inicio de sesion y visibilizo el container de los post.
-postsContainer.classList.toggle('posts-container')
-loginContainer.classList='posts-container_invisible'
+//Dado que existe en local storage la clave sesiones iniciadas le extraigo su array, si el usuario no existe, lo ingreso.
+const ingresarALocalStorage = (usuario) =>{
 
-//renderizarSitio()
+  
+  let usuariosIniciados = localStorage.getItem('sesiones_iniciadas')
+  console.log(typeof(usuariosIniciados))
+  console.log(usuariosIniciados)
+}
 
-let miUsuario = new Usuario("gui24XR", unUsuario);
-actualizarBarraSuperior(true, miUsuario);
-renderizarListaPosts(miUsuario, postsContainer);
+function abrirSesion(usuario) {
+
+
+  /*Ya que inicio sesion un usuario guardo en localStorage para dejarlo registrado y que no se cierre su cesion al cerrar el sitio.
+   dado que voy a guardarlo en un array bajo la clave 'sesiones_iniciadas' lo primero que hago es buscar si existe
+  */
+
+
+ localStorage.getItem('sesiones_iniciadas') != null ?
+  ingresarALocalStorage(usuario)
+ : localStorage.setItem('sesiones_iniciadas',[usuario]) // Si el storage esta vacio lo genero y le meto el usuario.
+
+  //Desaparezco el formulario de inicio de sesion y visibilizo el container de los post.
+  postsContainer.classList.toggle('posts-container')
+  loginContainer.classList = 'posts-container_invisible'
+
+  //renderizarSitio()
+
+  let miUsuario = new Usuario("gui24XR", unUsuario);
+  actualizarBarraSuperior(true, miUsuario);
+  renderizarListaPosts(miUsuario, postsContainer);
 
 }
 
 //PROGRAMA PRINCIPAL
 // Por medio del fomulario de login Si todo esta correcto carga el blog del ususario
-function iniciarSesion(){
-  
-  alert("Iniciar sesion")
+function iniciarSesion() {
 
   /*Al tocar iniciar sesion se llama a esta funcion. Si coinciden usuario y contraseña con un usuario existente inicia sesion. 
    Pone la variable iniiciar sesion a true y guarda al usuario en el localstorage y si todo sale satisfactoria sale del container
    de inicio de sesion y renderiza el blog con los datos del usuario*/
-  
-  
+
   //Compruebo usuario y contraseña.
   let usuario = document.getElementById('login-username-input').value
   let password = document.getElementById('login-password-input').value
-   
-  usuario == "gui24xr" && password =='123456'
-  ? abrirSesion()
-  :alert("Usuario o contraseña no coinciden o no existen !")
 
+  
+  usuario == "gui24xr" && password == '123456'
+    ? abrirSesion(usuario)
+    : alert("Usuario o contraseña no coinciden o no existen !")
 
 
 }
 
-var sesionIniciada = false;
- actualizarBarraSuperior(false,"Sin Usuario");
+
+
+
+
+//--------------------- MAIN ---------------------------------------------------//
+
+let postsContainer = document.getElementById("postsContainer");
+let loginContainer = document.getElementById("login-Container");
+
+
+
+
+let sesionIniciada = false;
+actualizarBarraSuperior(false, "Sin Usuario");
+
+
+
+
+
 
 //En este container SEGUN HAYA SESION Iniciada o no pongo formulario o post del usuario.
-let postsContainer = document.getElementById("postsContainer"); 
-let loginContainer = document.getElementById("login-Container"); 
-
-
-//------------------------Renderizacion */
 
 
 
 
 
 
-
-
-function renderizarSitio(){
-
-if (sesionIniciada) {
-
-    let miUsuario = new Usuario("gui24XR", unUsuario);
-    actualizarBarraSuperior(true, miUsuario);
-    renderizarListaPosts(miUsuario, postsContainer);
-   
-} 
-else {
-    actualizarBarraSuperior(false,"Sin Usuario");
-}
-}
