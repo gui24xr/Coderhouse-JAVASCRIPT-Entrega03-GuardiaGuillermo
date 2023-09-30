@@ -79,37 +79,35 @@ let renderizarUnPost = (usuarioPost, entrada, contenedor) => {
 };
 
 
-// Esta  funcion toma un usuario , recorre todos sus post y renderiza uno por a uno.
+// Esta  funcion toma un usuario , recorre todos sus post y renderiza uno por a uno el container pasado por parametro.
 const renderizarListaPosts = (unUsuario, container) => {
+  
   let posteosUsuario = unUsuario.getPosts();
+  posteosUsuario.forEach(post => renderizarUnPost(unUsuario, post, container))
 
-  let i = 0;
-
-  for (i = 0; i < posteosUsuario.length; i++) {
-    console.log(posteosUsuario[i].fecha);
-    renderizarUnPost(unUsuario, posteosUsuario[i], container);
-  }
 };
 
 //FUNCIONES INICIO SESION ----------------------------------------------------------------------------------------------
 
-//Esta funcion maneja la barra superior. habilita menues si la sesion esta iniciada y pone foto de perfil
-//Al cerrar cesion hace lo contrario.
+//Esta funcion maneja la barra superior. habilita menues si la sesion esta iniciada y pone foto de perfil, al cerrar sesion hace lo contrario.
 function actualizarBarraSuperior(sesionIniciada, usuario) {
 
   let userNameBarraSuperior = document.getElementById("user_name_barra_superior");
   let fotoPerfilBarraSuperior = document.getElementById("foto_perfil_barra_superior");
+  let btnMenuBarraSuperior = document.getElementById("btnMenu")
 
   //Si sesion iniciada pone Imagen perfil usuario, de lo contrario una predeterminada.
   sesionIniciada
     ? (fotoPerfilBarraSuperior.src = usuario.getFotoPerfil())
     : (fotoPerfilBarraSuperior.src = "./imagenes/icons/ico_perfil.png");
 
+  //Si sesion iniciada pone nombre usuario, de lo contrario un 'Iniciar Sesion'.
   sesionIniciada
     ? (userNameBarraSuperior.innerText = usuario.getUserName())
     : (userNameBarraSuperior.innerText = "Iniciar sesion");
 
-  if (sesionIniciada) habilitarMenu()
+   userNameBarraSuperior.addEventListener('click', () => {if (sesionIniciada)  alert("Abierto");else alert("Cerrado")})
+ //if (sesionIniciada) habilitarMenu()
 
 
 
@@ -143,63 +141,39 @@ function habilitarMenu() {
 }
 
 
-//----------------SESIONES ---------------------------------------------------//
-
-const sesionesIniciadas = (usuario) => {
-
-  let arrayRetornado;
- //Retorna el array que esta en local storage bajo la clave 'sesionesIniciadas', si es que existe.
- /* for (let i = 0; i < localStorage.length; i++) {
-    console.log(localStorage.key(i));
-
-    if localStorage.key(i)== 'sesionesIniciadas') arrayRetornado = localStorage.getItem()
-  }
-*/
- 
-
-}
 
 function cerrarSesion() {
 
 
   postsContainer.classList = 'posts-container_invisible'
   loginContainer.classList = 'login-container'
+
+
+
   actualizarBarraSuperior(false, "Sin Usuario");
+  //document.getElementById("user_name_barra_superior").addEventListener('click',()=> alert("H"));
+  //document.getElementById("user_name_barra_superior").removeEventListener('click');
+
   //Faltaria eliminar eventos al cerrar cesion
 
 }
 
 
-//Dado que existe en local storage la clave sesiones iniciadas le extraigo su array, si el usuario no existe, lo ingreso.
-const ingresarALocalStorage = (usuario) =>{
 
-  
-  let usuariosIniciados = localStorage.getItem('sesiones_iniciadas')
-  console.log(typeof(usuariosIniciados))
-  console.log(usuariosIniciados)
-}
-
-function abrirSesion(usuario) {
-
-
-  /*Ya que inicio sesion un usuario guardo en localStorage para dejarlo registrado y que no se cierre su cesion al cerrar el sitio.
-   dado que voy a guardarlo en un array bajo la clave 'sesiones_iniciadas' lo primero que hago es buscar si existe
-  */
-
-
- localStorage.getItem('sesiones_iniciadas') != null ?
-  ingresarALocalStorage(usuario)
- : localStorage.setItem('sesiones_iniciadas',[usuario]) // Si el storage esta vacio lo genero y le meto el usuario.
+function abrirSesion(usuario,archivoDatos) {
 
   //Desaparezco el formulario de inicio de sesion y visibilizo el container de los post.
   postsContainer.classList.toggle('posts-container')
   loginContainer.classList = 'posts-container_invisible'
+  alert("Bienvenido")
 
-  //renderizarSitio()
-
-  let miUsuario = new Usuario("gui24XR", unUsuario);
-  actualizarBarraSuperior(true, miUsuario);
-  renderizarListaPosts(miUsuario, postsContainer);
+  let datosPromesas = 1;
+  fetch(archivoDatos)
+    .then( response => response.json())
+    .then( (response) => {let miUsuario = new Usuario(response.userName, response);
+                          actualizarBarraSuperior(true, miUsuario);
+                          renderizarListaPosts(miUsuario, postsContainer);})
+ 
 
 }
 
@@ -207,19 +181,33 @@ function abrirSesion(usuario) {
 // Por medio del fomulario de login Si todo esta correcto carga el blog del ususario
 function iniciarSesion() {
 
-  /*Al tocar iniciar sesion se llama a esta funcion. Si coinciden usuario y contraseña con un usuario existente inicia sesion. 
-   Pone la variable iniiciar sesion a true y guarda al usuario en el localstorage y si todo sale satisfactoria sale del container
-   de inicio de sesion y renderiza el blog con los datos del usuario*/
+   //Levanto los datos de login.
+  let usuarioIngresado = document.getElementById('login-username-input').value
+  let passwordIngresado = document.getElementById('login-password-input').value
 
-  //Compruebo usuario y contraseña.
-  let usuario = document.getElementById('login-username-input').value
-  let password = document.getElementById('login-password-input').value
+  //Ingreso al archivo de usuarios registrados para comprobar si existe. De existir usuario manda los datos a iniciarSesion.
+  fetch('./data/usuarios_registrados.json')
+    .then( response => response.json())
+    .then( (data) => {let usuarioEncontrado = false; 
+                      let i=0;
 
-  
-  usuario == "gui24xr" && password == '123456'
-    ? abrirSesion(usuario)
-    : alert("Usuario o contraseña no coinciden o no existen !")
+                       while (!usuarioEncontrado && i<data.length){ 
+                        if(data[i].user == usuarioIngresado && data[i].pass == passwordIngresado){
+                          usuarioEncontrado=true;
+                          //Compruebo contraseña
+                          break;}
+                        else{
+                          //alert("usuario No encontrado");
+                          i++;}
+                        }
 
+                        //SI encontro el usuario va a iniciar sesion, de lo contrario alert
+                        usuarioEncontrado 
+                        ? abrirSesion(usuarioIngresado,data[i].archivoDatos)
+                        : alert("Usuario o contraseña no coinciden o no existen !")
+
+                      }
+    )
 
 }
 
@@ -228,14 +216,10 @@ function iniciarSesion() {
 
 
 //--------------------- MAIN ---------------------------------------------------//
-
-let postsContainer = document.getElementById("postsContainer");
 let loginContainer = document.getElementById("login-Container");
-
-
-
-
+let postsContainer = document.getElementById("postsContainer");
 let sesionIniciada = false;
+
 actualizarBarraSuperior(false, "Sin Usuario");
 
 
